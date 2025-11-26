@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polished by Gissella</title>
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            /* YOUR CUSTOM PALETTE */
+            --primary-green: #0A4F0C;
+            /* Deep Forest Green */
+            --bg-beige: #CABA9C;
+            /* Warm Beige */
+            --text-color: #1a1a1a;
+            /* Almost black for readability */
+            --card-bg: #ffffff;
+            /* White for cards to pop against beige */
+
+            /* Gradients for smooth transitions */
+            --gradient-services: linear-gradient(var(--card-bg), #EBE3D5);
+            --gradient-gallery: linear-gradient(#EBE3D5, var(--card-bg));
+            --gradient-about: linear-gradient(var(--card-bg), #E3EFE4);
+            --gradient-contact: linear-gradient(#E3EFE4, var(--card-bg));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            color: var(--text-color);
+            background-color: var(--bg-beige);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Garamond', serif;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-green);
+        }
+
+        .btn-book {
+            background-color: var(--primary-green);
+            color: white !important;
+            padding: 0.6rem 1.0rem;
+            border-radius: 0;
+            transition: background 0.3s;
+        }
+
+        .btn-book:hover {
+            background-color: #063007;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(to bottom, rgba(10, 79, 12, 0.5), rgba(10, 79, 12, 0.5) 85%, var(--card-bg));
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Garamond', serif;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            padding: 1rem 2.5rem;
+            background: var(--bg-beige);
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: transform 0.3s, background 0.3s;
+            cursor: pointer;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            background: white;
+        }
+
+        /* Sections General */
+        section {
+            padding: 5rem 5%;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            font-family: 'Garamond', serif;
+        }
+
+        /* Services */
+        #services {
+            background: var(--gradient-services);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            border-top: 4px solid var(--primary-green);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-card h3 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            display: block;
+            margin-top: 1rem;
+            font-weight: bold;
+            color: var(--text-color);
+            font-size: 1.2rem;
+        }
+
+        /* Gallery */
+        #gallery {
+            background: var(--gradient-gallery);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-item {
+            height: 300px;
+            background-color: #fff;
+            position: relative;
+            overflow: hidden;
+            border: 5px solid white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+            object-position: bottom;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* NEW ABOUT SECTION */
+        .about-section {
+            background: var(--gradient-about);
+        }
+
+        .about-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 4rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .about-image img {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--bg-beige);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .about-text h2 {
+            text-align: left;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        /* Contact */
+        .contact {
+            background: var(--gradient-contact);
+            color: var(--bg-beige);
+            text-align: center;
+        }
+
+        .contact h2 {
+            color: var(--bg-beige);
+        }
+
+        .contact-info p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #ffffff;
+            color: var(--bg-beige);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .about-text h2 {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">Polished by Gissella</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact" class="btn-book">Book Now</a></li>
+        </ul>
+    </nav>
+
+    <header id="home" class="hero">
+        <h1>Polished by Gissella</h1>
+        <p>Simply Elegant, nothing less.</p>
+        <button class="cta-button" onclick="window.location.href = 'https://calendar.app.google/fbXTDLpQfWsH9ci18'">Book
+            Appointment</button>
+    </header>
+
+    <section id="services">
+        <h2>Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>One Solid Color | Full Set</h3>
+                <p>This includes all single base solid colors. Pricing varies with additional charms, chrome, and
+                    design.
+                </p>
+                <span class="price">$40</span>
+            </div>
+            <div class="service-card">
+                <h3>French Tip | Full Set</h3>
+                <p>This includes all nude color bases with a solid color french tip. Pricing varies with additional
+                    charms, chrome, and design.</p>
+                <span class="price">$45</span>
+            </div>
+            <div class="service-card">
+                <h3>Bling Set | Full Set</h3>
+                <p>This includes a solid color full set with extra bling or 3D designs on 4 or more fingers. Price may
+                    vary if you want a french tip instead of solid color.</p>
+                <span class="price">$55</span>
+            </div>
+            <div class="service-card">
+                <h3>Builder Gel | Full Set</h3>
+                <p>This includes rubber based gel on your natural nails. Price varies with solid colors, french tips,
+                    chrome, charms, and designs.</p>
+                <span class="price">$35</span>
+            </div>
+            <div class="service-card">
+                <h3>Refill | Reset</h3>
+                <p>Builder gel requires a new full set (not a refill). Refills are allowed for a maximum of 2 bookings
+                    per set. Pricing is tiered based on added colors, French tips, charms, and designs.
+                </p>
+                <span class="price">$30</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <h2>My Portfolio</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="AmaNails.jpg" alt="Nail1" class="img-bottom-aligned"></div>
+            <div class="gallery-item"><img src="Sarriah'sMomNails.jpg" alt="Nail2" class="img-bottom-aligned"></div>
+            <div class="gallery-item"><img src="RavynNails.jpg" alt="Nail3" class="img-bottom-aligned"></div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="about-container">
+            <div class="about-image">
+                <img src="SarriahNailPFP.jpg" alt="Sarriah">
+            </div>
+            <div class="about-text">
+                <h2>Meet Sarriah</h2>
+                <p>Hi, I'm Sarriah, a nail artist based in Round Rock, TX! I am a self taught artist that started off by
+                    trying to save money
+                    for my mother and I, which ultimetly turned into a passion to help make others feel and look
+                    beautiful.
+                </p>
+                <p>As a full time student pursuing my dreams, I felt like I could give individuals like myself and my
+                    mother the opportunity to
+                    pamper themselves at a friendly budget! I hope to not only offer a beauty service at a friendly
+                    budget, but also a safe space
+                    for themselves and their individual personalities.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Get in Touch</h2>
+        <div class="contact-info">
+            <p><strong>Location:</strong> 2530 Caleb Asher Loop, Round Rock, TX 78665</p>
+            <p><strong>Text to Book:</strong> (512) 698-8631</p>
+            <p><strong>Instagram:</strong> <a href="https://www.instagram.com/PolishedBySarriah" target="_blank"
+                    style="color: inherit; text-decoration: underline;">@PolishedBySarriah</a></p>
+            <br>
+            <button class="cta-button"
+                onclick="window.location.href = 'https://calendar.app.google/fbXTDLpQfWsH9ci18'">Book
+                Now</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Polished by Gissella. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
