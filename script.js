@@ -13,13 +13,7 @@
     dot.className = 'cursor-dot';
     document.body.appendChild(dot);
 
-    // --- Outer ring (follows with lag) ---
-    const ring = document.createElement('div');
-    ring.className = 'cursor-ring';
-    document.body.appendChild(ring);
-
     let mouseX = -100, mouseY = -100;
-    let ringX   = -100, ringY   = -100;
 
     // Track mouse position
     window.addEventListener('mousemove', e => {
@@ -30,29 +24,24 @@
         spawnTrail(e.clientX, e.clientY);
     });
 
-    // Grow ring on clickable elements
+    // Shrink dot on clickable elements
     document.addEventListener('mouseover', e => {
         if (e.target.closest('a, button, .accordion-header, .faq-header, .service-card')) {
-            ring.classList.add('cursor-hover');
             dot.classList.add('cursor-hover');
         }
     });
     document.addEventListener('mouseout', e => {
         if (e.target.closest('a, button, .accordion-header, .faq-header, .service-card')) {
-            ring.classList.remove('cursor-hover');
             dot.classList.remove('cursor-hover');
         }
     });
 
-    // Animate the lagging ring
-    function animateRing() {
-        ringX += (mouseX - ringX) * 0.1;
-        ringY += (mouseY - ringY) * 0.1;
-        ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
-        dot.style.transform  = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-        requestAnimationFrame(animateRing);
+    // Animate the dot
+    function animateDot() {
+        dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+        requestAnimationFrame(animateDot);
     }
-    animateRing();
+    animateDot();
 
     // --- Trail particles ---
     let lastTrailX = 0, lastTrailY = 0;

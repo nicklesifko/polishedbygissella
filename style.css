@@ -27,26 +27,6 @@
     background: var(--accent, #8B6B4A);
 }
 
-/* Outer lagging ring */
-.cursor-ring {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 36px;
-    height: 36px;
-    border: 1.5px solid rgba(201, 168, 124, 0.6);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transition: width 0.25s, height 0.25s, border-color 0.25s;
-    will-change: transform;
-}
-
-.cursor-ring.cursor-hover {
-    width: 52px;
-    height: 52px;
-    border-color: rgba(139, 107, 74, 0.5);
-}
 
 /* Trail particles */
 .cursor-trail {
