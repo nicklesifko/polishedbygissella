@@ -22,11 +22,180 @@
     <meta name="twitter:description" content="Nail artist based in Round Rock, TX. Gel X, Hard Gel, custom art, and more — at a budget you'll love. Book your appointment today.">
     <meta name="twitter:image"       content="https://polishedbygissella.com/SarriahClassy.jpeg">
 
+    <!-- ── Local Business Schema ── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BeautySalon",
+      "name": "Polished by Gissella",
+      "description": "Self-taught nail artist based in Round Rock, TX offering Gel X, Hard Gel, Soft Builder Gel, custom nail art, and more at a friendly budget.",
+      "url": "https://polishedbygissella.com",
+      "logo": "https://polishedbygissella.com/favicon.ico",
+      "image": "https://polishedbygissella.com/SarriahClassy.jpeg",
+      "telephone": "",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Round Rock",
+        "addressRegion": "TX",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 30.5083,
+        "longitude": -97.6789
+      },
+      "sameAs": [
+        "https://www.instagram.com/polishedbygissella"
+      ],
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "description": "By appointment only"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Nail Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Gel X Full Set",
+              "description": "Entire nail extension with a variety of shapes and lengths. Includes all single base solid colors."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "60",
+              "priceCurrency": "USD",
+              "minPrice": "60"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Hard Gel Full Set",
+              "description": "Application on natural nail or extensions. Includes solid colors."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "55",
+              "priceCurrency": "USD",
+              "minPrice": "55"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Soft Builder Gel Full Set",
+              "description": "Rubber based gel on natural nails. Includes solid colors."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "45",
+              "priceCurrency": "USD",
+              "minPrice": "45"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Hard Gel Refill",
+              "description": "Max 2 bookings per set. Includes single base colors."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "45",
+              "priceCurrency": "USD",
+              "minPrice": "45"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Soft Builder Gel Refill",
+              "description": "Max 2 bookings per set. Also used as a Gel X refill."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "35",
+              "priceCurrency": "USD",
+              "minPrice": "35"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Soak Off / Removal Only",
+              "description": "Removal of product along with a dry manicure. My product $20, foreign product $30."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "minPrice": "20",
+              "maxPrice": "30",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Tiered Nail Art",
+              "description": "Custom nail art in 4 tiers ranging from minimal designs to extensive detailed artwork."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "minPrice": "15",
+              "priceCurrency": "USD",
+              "description": "Starting at base price +$15"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "French Tip",
+              "description": "Nude color bases with a solid color french tip."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "45",
+              "priceCurrency": "USD",
+              "minPrice": "45"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Foreign Removal and Full Set",
+              "description": "Removal of previous application from another artist followed by a full set."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "45",
+              "priceCurrency": "USD",
+              "minPrice": "45"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="polishedbygissella.jpg">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- Page transition overlay -->
+    <div class="page-transition" id="pageTransition"></div>
 
     <!-- Global aura background -->
     <div class="bg-aura" aria-hidden="true">
@@ -58,10 +227,12 @@
     <!-- ========== HERO ========== -->
     <section class="hero">
         <div class="hero-content">
-            <span class="hero-eyebrow">Polished by Gissella — Round Rock, TX</span>
-            <h1 class="hero-title">Simply <em>Elegant.</em></h1>
-            <p class="hero-sub">Nothing less. A safe space for you and your individual personality.</p>
-            <a href="#booking" class="btn">Book Appointment</a>
+            <span class="hero-eyebrow reveal-fade">Polished by Gissella — Round Rock, TX</span>
+            <h1 class="hero-title">
+                <span class="reveal-word">Simply</span> <em class="reveal-word">Elegant.</em>
+            </h1>
+            <p class="hero-sub reveal-fade" style="--reveal-delay: 0.7s">Nothing less. A safe space for you and your individual personality.</p>
+            <a href="#booking" class="btn reveal-fade" style="--reveal-delay: 1s">Book Appointment</a>
         </div>
         <div class="hero-scroll-hint">
             <span>Scroll</span>
@@ -90,21 +261,21 @@
                                 <strong>Gel X</strong>
                                 Entire nail extension with a variety of shapes & lengths. Includes all single base solid colors.
                             </div>
-                            <span class="price">$60+</span>
+                            <span class="price">$70+</span>
                         </li>
                         <li>
                             <div class="service-details">
                                 <strong>Hard Gel</strong>
                                 Application on natural nail. Includes solid colors.
                             </div>
-                            <span class="price">$55+</span>
+                            <span class="price">$60+</span>
                         </li>
                         <li>
                             <div class="service-details">
                                 <strong>Soft Builder Gel</strong>
                                 Rubber based gel on natural nails. Includes solid colors.
                             </div>
-                            <span class="price">$45+</span>
+                            <span class="price">$50+</span>
                         </li>
                     </ul>
                 </div>
@@ -122,14 +293,14 @@
                                 <strong>Refill | Hard Gel Reset</strong>
                                 Max 2 bookings per set. Includes single base colors.
                             </div>
-                            <span class="price">$45+</span>
+                            <span class="price">$50+</span>
                         </li>
                         <li>
                             <div class="service-details">
                                 <strong>Refill | Soft Builder Gel Reset</strong>
                                 Max 2 bookings per set. Also used as a Gel X refill.
                             </div>
-                            <span class="price">$35+</span>
+                            <span class="price">$40+</span>
                         </li>
                         <li>
                             <div class="service-details">

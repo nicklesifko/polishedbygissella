@@ -78,6 +78,48 @@
 })();
 
 
+/* =============================================
+   SMOOTH PAGE TRANSITIONS
+   ============================================= */
+(() => {
+    const overlay = document.getElementById('pageTransition');
+    if (!overlay) return;
+
+    // Fade in on arrival — remove the overlay
+    window.addEventListener('load', () => {
+        overlay.classList.remove('active');
+    });
+
+    // Intercept same-origin link clicks that go to a different page
+    document.addEventListener('click', e => {
+        const link = e.target.closest('a');
+        if (!link) return;
+
+        const href = link.getAttribute('href');
+        if (!href) return;
+
+        // Skip: hash-only, external, new-tab, or non-html links
+        const isExternal  = link.hostname !== window.location.hostname;
+        const isHash      = href.startsWith('#');
+        const isNewTab    = link.target === '_blank';
+        const isNonPage   = /\.(pdf|jpg|jpeg|png|zip)$/i.test(href);
+        if (isExternal || isHash || isNewTab || isNonPage) return;
+
+        e.preventDefault();
+        overlay.classList.add('active');
+
+        setTimeout(() => {
+            window.location.href = href;
+        }, 480);
+    });
+
+    // On back/forward — ensure overlay is cleared
+    window.addEventListener('pageshow', e => {
+        if (e.persisted) overlay.classList.remove('active');
+    });
+})();
+
+
 document.addEventListener('DOMContentLoaded', () => {
 
     /* =============================================

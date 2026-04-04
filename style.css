@@ -61,6 +61,63 @@
     --transition:  0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ============================================
+   PAGE TRANSITION OVERLAY
+   ============================================ */
+.page-transition {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 99999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-transition.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* ============================================
+   TEXT REVEAL ANIMATIONS
+   ============================================ */
+
+/* Word slide-up reveal */
+.reveal-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: wordReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-title .reveal-word:nth-child(1) { animation-delay: 0.2s; }
+.hero-title .reveal-word:nth-child(2) { animation-delay: 0.42s; }
+
+@keyframes wordReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade-up for eyebrow, subtitle, button */
+.reveal-fade {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: var(--reveal-delay, 0.1s);
+}
+
+.hero-eyebrow.reveal-fade { --reveal-delay: 0.05s; }
+
+@keyframes fadeReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* --- Reset --- */
 *, *::before, *::after {
     margin: 0;
