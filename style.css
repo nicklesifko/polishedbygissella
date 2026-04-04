@@ -2,6 +2,72 @@
    POLISHED BY GISSELLA — Style Sheet
    ============================================ */
 
+/* ============================================
+   CUSTOM CURSOR
+   ============================================ */
+
+/* Main dot */
+.cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: var(--gold, #C9A87C);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: width 0.2s, height 0.2s, background 0.2s;
+    will-change: transform;
+}
+
+.cursor-dot.cursor-hover {
+    width: 5px;
+    height: 5px;
+    background: var(--accent, #8B6B4A);
+}
+
+/* Outer lagging ring */
+.cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid rgba(201, 168, 124, 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: width 0.25s, height 0.25s, border-color 0.25s;
+    will-change: transform;
+}
+
+.cursor-ring.cursor-hover {
+    width: 52px;
+    height: 52px;
+    border-color: rgba(139, 107, 74, 0.5);
+}
+
+/* Trail particles */
+.cursor-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9997;
+    background: radial-gradient(circle, rgba(201, 168, 124, 0.7) 0%, rgba(201, 168, 124, 0) 70%);
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    transition: transform 0.7s ease-out, opacity 0.7s ease-out;
+    will-change: transform, opacity;
+}
+
+.cursor-trail--fade {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+}
+
 /* --- Variables --- */
 :root {
     --bg:          #F8F4EF;
@@ -24,10 +90,11 @@
 
 html {
     scroll-behavior: smooth;
+    background-color: var(--bg); /* Base canvas so orbs have something to sit on */
 }
 
 body {
-    background-color: var(--bg);
+    background-color: transparent; /* Let html bg show; orbs sit above it */
     color: var(--dark);
     font-family: 'Outfit', sans-serif;
     line-height: 1.7;
@@ -163,6 +230,105 @@ a {
 .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* ============================================
+   GLOBAL AURA BACKGROUND
+   ============================================ */
+.bg-aura {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* All page content must sit above the aura layer */
+#navbar,
+.hero,
+.services,
+.gallery,
+.about,
+.booking,
+.page-hero,
+.faq-section,
+.faq-cta,
+footer {
+    position: relative;
+    z-index: 1;
+}
+
+.bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    will-change: transform;
+}
+
+.bg-orb-1 {
+    width: 70vw;
+    height: 70vw;
+    background: radial-gradient(circle, rgba(201, 168, 124, 0.22) 0%, transparent 65%);
+    top: -20%;
+    left: -20%;
+    animation: bgDrift1 22s infinite alternate ease-in-out;
+}
+
+.bg-orb-2 {
+    width: 55vw;
+    height: 55vw;
+    background: radial-gradient(circle, rgba(224, 190, 172, 0.2) 0%, transparent 65%);
+    top: 25%;
+    right: -15%;
+    animation: bgDrift2 28s infinite alternate-reverse ease-in-out;
+}
+
+.bg-orb-3 {
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, rgba(248, 232, 208, 0.28) 0%, transparent 65%);
+    bottom: -10%;
+    left: 15%;
+    animation: bgDrift3 20s infinite alternate ease-in-out;
+}
+
+.bg-orb-4 {
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(circle, rgba(201, 168, 124, 0.14) 0%, transparent 65%);
+    top: 55%;
+    left: -8%;
+    animation: bgDrift4 25s infinite alternate-reverse ease-in-out;
+}
+
+.bg-orb-5 {
+    width: 45vw;
+    height: 45vw;
+    background: radial-gradient(circle, rgba(232, 205, 185, 0.16) 0%, transparent 65%);
+    top: 5%;
+    right: 5%;
+    animation: bgDrift5 32s infinite alternate ease-in-out;
+}
+
+@keyframes bgDrift1 {
+    0%   { transform: translate(0, 0)      scale(1); }
+    100% { transform: translate(60px, 80px) scale(1.15); }
+}
+@keyframes bgDrift2 {
+    0%   { transform: translate(0, 0)       scale(1); }
+    100% { transform: translate(-55px, 65px) scale(1.1); }
+}
+@keyframes bgDrift3 {
+    0%   { transform: translate(0, 0)       scale(1); }
+    100% { transform: translate(45px, -70px) scale(1.12); }
+}
+@keyframes bgDrift4 {
+    0%   { transform: translate(0, 0)        scale(1.05); }
+    100% { transform: translate(75px, -45px) scale(1); }
+}
+@keyframes bgDrift5 {
+    0%   { transform: translate(0, 0)        scale(1); }
+    100% { transform: translate(-65px, 55px) scale(1.08); }
+}
+
+/* ============================================
    HERO
    ============================================ */
 .hero {
@@ -171,48 +337,6 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-}
-
-/* Aura orbs */
-.aura-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    pointer-events: none;
-    z-index: 0;
-}
-
-.orb-1 {
-    width: 55vw;
-    height: 55vw;
-    background: radial-gradient(circle, rgba(201, 168, 124, 0.22) 0%, transparent 70%);
-    top: -10%;
-    left: -15%;
-    animation: drift 14s infinite alternate ease-in-out;
-}
-
-.orb-2 {
-    width: 40vw;
-    height: 40vw;
-    background: radial-gradient(circle, rgba(220, 185, 170, 0.18) 0%, transparent 70%);
-    bottom: 0;
-    right: -10%;
-    animation: drift 18s infinite alternate-reverse ease-in-out;
-}
-
-.orb-3 {
-    width: 30vw;
-    height: 30vw;
-    background: radial-gradient(circle, rgba(139, 107, 74, 0.1) 0%, transparent 70%);
-    top: 40%;
-    left: 50%;
-    animation: drift 22s infinite alternate ease-in-out;
-}
-
-@keyframes drift {
-    0%   { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(40px, -60px) scale(1.12); }
 }
 
 .hero-content {
@@ -435,7 +559,6 @@ a {
    ============================================ */
 .gallery {
     padding: 7rem 5%;
-    background: rgba(201, 168, 124, 0.06);
 }
 
 .gallery .section-header {
@@ -564,7 +687,6 @@ a {
    BOOKING
    ============================================ */
 .booking {
-    background: rgba(201, 168, 124, 0.06);
     padding: 7rem 5%;
 }
 

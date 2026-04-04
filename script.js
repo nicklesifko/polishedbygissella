@@ -1,3 +1,94 @@
+/* =============================================
+   CUSTOM CURSOR & GOLD TRAIL
+   ============================================= */
+(() => {
+    // Don't run on touch devices
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
+    // Hide the default cursor
+    document.documentElement.style.cursor = 'none';
+
+    // --- Main dot ---
+    const dot = document.createElement('div');
+    dot.className = 'cursor-dot';
+    document.body.appendChild(dot);
+
+    // --- Outer ring (follows with lag) ---
+    const ring = document.createElement('div');
+    ring.className = 'cursor-ring';
+    document.body.appendChild(ring);
+
+    let mouseX = -100, mouseY = -100;
+    let ringX   = -100, ringY   = -100;
+
+    // Track mouse position
+    window.addEventListener('mousemove', e => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        // Spawn a trail particle on every move
+        spawnTrail(e.clientX, e.clientY);
+    });
+
+    // Grow ring on clickable elements
+    document.addEventListener('mouseover', e => {
+        if (e.target.closest('a, button, .accordion-header, .faq-header, .service-card')) {
+            ring.classList.add('cursor-hover');
+            dot.classList.add('cursor-hover');
+        }
+    });
+    document.addEventListener('mouseout', e => {
+        if (e.target.closest('a, button, .accordion-header, .faq-header, .service-card')) {
+            ring.classList.remove('cursor-hover');
+            dot.classList.remove('cursor-hover');
+        }
+    });
+
+    // Animate the lagging ring
+    function animateRing() {
+        ringX += (mouseX - ringX) * 0.1;
+        ringY += (mouseY - ringY) * 0.1;
+        ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+        dot.style.transform  = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+        requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    // --- Trail particles ---
+    let lastTrailX = 0, lastTrailY = 0;
+
+    function spawnTrail(x, y) {
+        // Only spawn if moved enough (avoids flooding on tiny jitters)
+        const dx = x - lastTrailX, dy = y - lastTrailY;
+        if (Math.sqrt(dx*dx + dy*dy) < 10) return;
+        lastTrailX = x; lastTrailY = y;
+
+        const p = document.createElement('div');
+        p.className = 'cursor-trail';
+
+        // Slight random offset so particles fan out
+        const ox = (Math.random() - 0.5) * 10;
+        const oy = (Math.random() - 0.5) * 10;
+        const size = 6 + Math.random() * 8;
+
+        p.style.cssText = `
+            left: ${x}px;
+            top:  ${y}px;
+            width:  ${size}px;
+            height: ${size}px;
+            margin-left: ${ox}px;
+            margin-top:  ${oy}px;
+        `;
+
+        document.body.appendChild(p);
+
+        // Trigger fade-out then remove
+        requestAnimationFrame(() => p.classList.add('cursor-trail--fade'));
+        setTimeout(() => p.remove(), 700);
+    }
+})();
+
+
 document.addEventListener('DOMContentLoaded', () => {
 
     /* =============================================
