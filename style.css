@@ -554,6 +554,49 @@ footer {
     padding-bottom: 1.8rem;
 }
 
+/* Pedicure / luxury note */
+.service-luxury-note {
+    border-left: 3px solid var(--gold);
+    background: rgba(201, 168, 124, 0.08);
+    border-radius: 0 8px 8px 0;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.2rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+.service-luxury-note strong {
+    color: var(--accent);
+    font-weight: 500;
+}
+
+/* Divider between service groups within a card */
+.service-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1rem 0 0.25rem;
+}
+
+.service-divider::before,
+.service-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(139, 107, 74, 0.15);
+}
+
+.service-divider span {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    white-space: nowrap;
+}
+
 .service-list {
     list-style: none;
 }
