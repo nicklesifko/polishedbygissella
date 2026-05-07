@@ -275,6 +275,8 @@ a {
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
+    /* Isolate paint/layout so orb repaints don't trigger the rest of the page */
+    contain: layout style;
 }
 
 /* All page content must sit above the aura layer */
@@ -363,6 +365,22 @@ footer {
 @keyframes bgDrift5 {
     0%   { transform: translate(0, 0)        scale(1); }
     100% { transform: translate(-65px, 55px) scale(1.08); }
+}
+
+/* Respect the OS "reduce motion" preference — pause all decorative animations */
+@media (prefers-reduced-motion: reduce) {
+    .bg-orb,
+    .scroll-line,
+    .cursor-trail {
+        animation: none !important;
+        transition: none !important;
+    }
+    .reveal-word,
+    .reveal-fade {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
 }
 
 /* ============================================

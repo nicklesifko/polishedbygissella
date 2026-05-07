@@ -188,6 +188,12 @@
     }
     </script>
 
+    <!-- Preconnect to external origins to eliminate extra DNS/TCP handshake latency -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://w.behold.so">
+    <link rel="preconnect" href="https://assets.calendly.com">
+
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="polishedbygissella.jpg">
     <link rel="stylesheet" href="style.css">
@@ -462,7 +468,11 @@
     <!-- ========== ABOUT ========== -->
     <section id="about" class="about fade-in-section">
         <div class="about-image">
-            <img src="sarriahPFP.jpg" alt="Sarriah, Nail Artist at Polished by Gissella">
+            <picture>
+                <source srcset="sarriahPFP.webp" type="image/webp">
+                <img src="sarriahPFP.jpg" alt="Sarriah, Nail Artist at Polished by Gissella"
+                     width="500" height="889" loading="lazy">
+            </picture>
         </div>
         <div class="about-text">
             <span class="section-eyebrow">The Artist</span>

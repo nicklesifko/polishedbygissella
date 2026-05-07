@@ -14,15 +14,22 @@
     document.body.appendChild(dot);
 
     let mouseX = -100, mouseY = -100;
+    let rafPending = false; // dirty flag — only schedule a new frame when position changed
 
-    // Track mouse position
+    // Track mouse position — passive: true lets the browser scroll freely without waiting for this handler
     window.addEventListener('mousemove', e => {
         mouseX = e.clientX;
         mouseY = e.clientY;
 
         // Spawn a trail particle on every move
         spawnTrail(e.clientX, e.clientY);
-    });
+
+        // Schedule a single repaint if one isn't already queued
+        if (!rafPending) {
+            rafPending = true;
+            requestAnimationFrame(animateDot);
+        }
+    }, { passive: true });
 
     // Shrink dot on clickable elements
     document.addEventListener('mouseover', e => {
@@ -36,12 +43,11 @@
         }
     });
 
-    // Animate the dot
+    // Animate the dot — only called when mouse actually moved
     function animateDot() {
         dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-        requestAnimationFrame(animateDot);
+        rafPending = false; // allow next mousemove to schedule another frame
     }
-    animateDot();
 
     // --- Trail particles ---
     let lastTrailX = 0, lastTrailY = 0;
@@ -127,13 +133,14 @@ document.addEventListener('DOMContentLoaded', () => {
        ============================================= */
     const navbar = document.getElementById('navbar');
 
+    // passive: true tells the browser this handler won't block scrolling
     window.addEventListener('scroll', () => {
         if (window.scrollY > 60) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
-    });
+    }, { passive: true });
 
 
     /* =============================================
