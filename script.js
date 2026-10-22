@@ -4,6 +4,7 @@
 (() => {
     // Don't run on touch devices
     if (window.matchMedia('(pointer: coarse)').matches) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // Hide the default cursor
     document.documentElement.style.cursor = 'none';
@@ -22,7 +23,7 @@
         mouseY = e.clientY;
 
         // Spawn a trail particle on every move
-        spawnTrail(e.clientX, e.clientY);
+        if (!reduceMotion) spawnTrail(e.clientX, e.clientY);
 
         // Schedule a single repaint if one isn't already queued
         if (!rafPending) {
@@ -98,6 +99,8 @@
 
     // Intercept same-origin link clicks that go to a different page
     document.addEventListener('click', e => {
+        if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
         const link = e.target.closest('a');
         if (!link) return;
 
@@ -109,7 +112,9 @@
         const isHash      = href.startsWith('#');
         const isNewTab    = link.target === '_blank';
         const isNonPage   = /\.(pdf|jpg|jpeg|png|zip)$/i.test(href);
-        if (isExternal || isHash || isNewTab || isNonPage) return;
+        // Same-page anchor written as a path (e.g. "index.html#booking" while on index) — let it scroll
+        const isSamePage  = link.pathname === window.location.pathname && link.hash;
+        if (isExternal || isHash || isNewTab || isNonPage || isSamePage) return;
 
         e.preventDefault();
         overlay.classList.add('active');
@@ -149,48 +154,137 @@ document.addEventListener('DOMContentLoaded', () => {
     const hamburger = document.getElementById('hamburger');
     const navLinks  = document.getElementById('navLinks');
 
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('open');
-        navLinks.classList.toggle('open');
-        document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
-    });
+    function setMenu(open) {
+        hamburger.classList.toggle('open', open);
+        navLinks.classList.toggle('open', open);
+        hamburger.setAttribute('aria-expanded', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+    }
 
-    // Close mobile menu when any nav link is clicked
+    hamburger.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
+
+    // Close mobile menu when any nav link is clicked, or on Escape
     navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('open');
-            navLinks.classList.remove('open');
-            document.body.style.overflow = '';
-        });
+        link.addEventListener('click', () => setMenu(false));
+    });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && navLinks.classList.contains('open')) setMenu(false);
     });
 
 
     /* =============================================
-       ACCORDION — services section
+       ACCORDIONS — services cards & FAQ cards
        ============================================= */
-    const cards = document.querySelectorAll('.service-card');
+    function setupAccordion(cardSel, headerSel, contentSel, extra) {
+        const cards = document.querySelectorAll(cardSel);
+        if (!cards.length) return;
 
-    cards.forEach(card => {
-        const header  = card.querySelector('.accordion-header');
-        const content = card.querySelector('.accordion-content');
+        const close = card => {
+            card.classList.remove('active');
+            card.querySelector(headerSel).setAttribute('aria-expanded', 'false');
+            card.querySelector(contentSel).style.maxHeight = null;
+        };
 
-        header.addEventListener('click', () => {
-            // Close any other open card
-            cards.forEach(other => {
-                if (other !== card && other.classList.contains('active')) {
-                    other.classList.remove('active');
-                    other.querySelector('.accordion-content').style.maxHeight = null;
+        cards.forEach(card => {
+            const header  = card.querySelector(headerSel);
+            const content = card.querySelector(contentSel);
+
+            // Headers are divs — give them button semantics so keyboard & screen reader users can open them
+            header.setAttribute('role', 'button');
+            header.setAttribute('tabindex', '0');
+            header.setAttribute('aria-expanded', 'false');
+
+            const toggle = () => {
+                // Close any other open card
+                cards.forEach(other => {
+                    if (other !== card && other.classList.contains('active')) close(other);
+                });
+
+                if (card.classList.contains('active')) {
+                    close(card);
+                } else {
+                    card.classList.add('active');
+                    header.setAttribute('aria-expanded', 'true');
+                    content.style.maxHeight = content.scrollHeight + extra + 'px';
+                }
+            };
+
+            header.addEventListener('click', toggle);
+            header.addEventListener('keydown', e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggle();
                 }
             });
-
-            card.classList.toggle('active');
-
-            if (card.classList.contains('active')) {
-                content.style.maxHeight = content.scrollHeight + 40 + 'px';
-            } else {
-                content.style.maxHeight = null;
-            }
         });
+
+        // Text reflows on rotate/resize — re-measure the open card so nothing gets clipped
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                cards.forEach(card => {
+                    if (!card.classList.contains('active')) return;
+                    const content = card.querySelector(contentSel);
+                    content.style.maxHeight = content.scrollHeight + extra + 'px';
+                });
+            }, 150);
+        }, { passive: true });
+    }
+
+    setupAccordion('.service-card', '.accordion-header', '.accordion-content', 40);
+    setupAccordion('.faq-card', '.faq-header', '.faq-body', 32);
+
+
+    /* =============================================
+       LAZY THIRD-PARTY WIDGETS — Instagram gallery & Calendly
+       Neither loads until its section is close to the screen,
+       so the first paint isn't waiting on heavy external scripts.
+       ============================================= */
+    function loadScript(src, isModule) {
+        return new Promise((resolve, reject) => {
+            const s = document.createElement('script');
+            if (isModule) s.type = 'module';
+            s.src = src;
+            s.async = true;
+            s.onload = resolve;
+            s.onerror = reject;
+            document.head.appendChild(s);
+        });
+    }
+
+    function whenNear(el, callback) {
+        if (!el) return;
+        if (!('IntersectionObserver' in window)) return callback();
+        const io = new IntersectionObserver(entries => {
+            if (entries.some(entry => entry.isIntersecting)) {
+                io.disconnect();
+                callback();
+            }
+        }, { rootMargin: '800px 0px' });
+        io.observe(el);
+    }
+
+    whenNear(document.querySelector('behold-widget'), () => {
+        loadScript('https://w.behold.so/widget.js', true).catch(() => {});
+    });
+
+    const calendly = document.getElementById('calendlyEmbed');
+    whenNear(calendly, () => {
+        loadScript('https://assets.calendly.com/assets/external/widget.js')
+            .then(() => {
+                window.Calendly.initInlineWidget({
+                    url: calendly.dataset.url,
+                    parentElement: calendly
+                });
+            })
+            .catch(() => {
+                // Blocked or offline — give visitors a direct link instead of an empty box
+                calendly.style.height = 'auto';
+                calendly.innerHTML = '<p class="calendly-fallback">The booking calendar couldn\'t load. ' +
+                    '<a href="https://calendly.com/polishedbygissella" target="_blank" rel="noopener noreferrer">Open it in a new tab</a> ' +
+                    'or DM me on Instagram.</p>';
+            });
     });
 
 
@@ -198,6 +292,12 @@ document.addEventListener('DOMContentLoaded', () => {
        SCROLL FADE-IN — IntersectionObserver
        ============================================= */
     const fadeSections = document.querySelectorAll('.fade-in-section');
+
+    // Old browsers: just show everything rather than leaving sections invisible
+    if (!('IntersectionObserver' in window)) {
+        fadeSections.forEach(section => section.classList.add('visible'));
+        return;
+    }
 
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {

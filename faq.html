@@ -5,22 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ | Polished by Gissella</title>
 
+    <meta name="description" content="Got questions about booking, pricing, or nail care? Find all the answers here before your appointment with Polished by Gissella.">
+    <link rel="canonical" href="https://polishedbygissella.com/faq.html">
+    <meta name="theme-color" content="#F8F4EF">
+
     <!-- ── Open Graph (social media link previews) ── -->
-    <!-- IMPORTANT: Replace "https://polishedbygissella.com" with your actual domain once live -->
     <meta property="og:type"        content="website">
     <meta property="og:url"         content="https://polishedbygissella.com/faq.html">
     <meta property="og:title"       content="FAQ | Polished by Gissella">
     <meta property="og:description" content="Got questions about booking, pricing, or nail care? Find all the answers here before your appointment with Polished by Gissella.">
-    <meta property="og:image"       content="https://polishedbygissella.com/SarriahClassy.jpeg">
-    <meta property="og:image:width"  content="1200">
-    <meta property="og:image:height" content="630">
+    <meta property="og:image"       content="https://polishedbygissella.com/polishedbygissella.jpg">
+    <meta property="og:image:width"  content="150">
+    <meta property="og:image:height" content="150">
     <meta property="og:site_name"   content="Polished by Gissella">
 
     <!-- ── Twitter / X Card ── -->
-    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:card"        content="summary">
     <meta name="twitter:title"       content="FAQ | Polished by Gissella">
     <meta name="twitter:description" content="Got questions about booking, pricing, or nail care? Find all the answers here before your appointment with Polished by Gissella.">
-    <meta name="twitter:image"       content="https://polishedbygissella.com/SarriahClassy.jpeg">
+    <meta name="twitter:image"       content="https://polishedbygissella.com/polishedbygissella.jpg">
 
     <!-- ── FAQ Page Schema ── -->
     <script type="application/ld+json">
@@ -34,6 +37,7 @@
         { "@type": "Question", "name": "What is your cancellation policy?", "acceptedAnswer": { "@type": "Answer", "text": "Please give at least 24 hours notice if you need to cancel or reschedule. No-shows will be required to pay in full before booking again." } },
         { "@type": "Question", "name": "Where are you located?", "acceptedAnswer": { "@type": "Answer", "text": "Appointments take place in Round Rock, TX. The exact address is shared once your appointment is confirmed." } },
         { "@type": "Question", "name": "How long does a typical appointment take?", "acceptedAnswer": { "@type": "Answer", "text": "A full set typically takes 1.5–2.5 hours. Refills are usually 1–1.5 hours. Art sets may take longer." } },
+        { "@type": "Question", "name": "What if it's been more than 4 weeks since my last refill?", "acceptedAnswer": { "@type": "Answer", "text": "After 4+ weeks, your apex grows out and moves further up the nail, which puts centralized pressure on your nail plate. Book a Rebalancing ($50 soft gel, $55 hard gel). Depending on how the product has grown out, I'll determine whether a rebalance is safe or if a removal with a new application is best." } },
         { "@type": "Question", "name": "How long will my nails last?", "acceptedAnswer": { "@type": "Answer", "text": "With proper care, Gel X and Hard Gel sets typically last 3–5 weeks. Soft Builder Gel on natural nails can last 2–4 weeks." } }
       ]
     }
@@ -245,7 +249,7 @@
             <a href="faq.html" class="active">FAQ</a>
         </div>
         <a href="index.html#booking" class="btn btn-nav">Book Now</a>
-        <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
             <span></span>
             <span></span>
             <span></span>
@@ -358,6 +362,16 @@
             </div>
         </div>
 
+        <div class="faq-card">
+            <div class="faq-header">
+                <h3>What if it's been more than 4 weeks since my last refill?</h3>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-body">
+                <p>After 4+ weeks, your apex grows out and moves further up the nail, which puts centralized pressure on your nail plate. Book a Rebalancing ($50 soft gel · $55 hard gel). Depending on how the product has grown out, I'll determine whether a rebalance is safe or if a removal with a new application is best.</p>
+            </div>
+        </div>
+
         <p class="faq-category">Nail Care</p>
 
         <div class="faq-card">
@@ -429,30 +443,5 @@
     </footer>
 
     <script src="script.js"></script>
-    <script>
-        // FAQ accordion (mirrors the services accordion in script.js)
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.faq-card');
-
-            cards.forEach(card => {
-                const header = card.querySelector('.faq-header');
-                const body   = card.querySelector('.faq-body');
-
-                header.addEventListener('click', () => {
-                    cards.forEach(other => {
-                        if (other !== card && other.classList.contains('active')) {
-                            other.classList.remove('active');
-                            other.querySelector('.faq-body').style.maxHeight = null;
-                        }
-                    });
-
-                    card.classList.toggle('active');
-                    body.style.maxHeight = card.classList.contains('active')
-                        ? body.scrollHeight + 32 + 'px'
-                        : null;
-                });
-            });
-        });
-    </script>
 </body>
 </html>

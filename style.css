@@ -376,11 +376,24 @@ footer {
         transition: none !important;
     }
     .reveal-word,
-    .reveal-fade {
+    .reveal-fade,
+    .fade-in-section {
         animation: none !important;
         opacity: 1 !important;
         transform: none !important;
     }
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* Visible focus ring for keyboard users (mouse clicks don't trigger it) */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
 }
 
 /* ============================================
@@ -934,6 +947,19 @@ footer {
     overflow: hidden;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+}
+
+/* Shown only if Calendly is blocked or JavaScript is off */
+.calendly-fallback {
+    padding: 2rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.calendly-fallback a {
+    color: var(--accent);
+    text-decoration: underline;
 }
 
 /* ============================================
